@@ -18,7 +18,6 @@ from telegram.ext import (
 
 # Importing your custom module "IO"
 
-TOKEN = "your_bot_token_here"
 BOT_ID = None
 BOT_NAME = None
 BOT_USERNAME = None
@@ -106,13 +105,13 @@ async def mainwhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
             title=f"👤 Send a whisper message to {user}!",
             description="Only they can see it!",
             input_message_content=InputTextMessageContent(
-                f"🔐 A Whisper Message For {user}\nOnly they can see it!"
+                f"A Whisper for {user}\nOnly they can see it!"
             ),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            "📩 𝗦𝗵𝗼𝘄 𝗪𝗵𝗶𝘀𝗽𝗲𝗿 📩",
+                            "View Message",
                             callback_data=f"whisper_{whisperId}",
                         )
                     ]
