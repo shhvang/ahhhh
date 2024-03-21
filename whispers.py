@@ -1,5 +1,3 @@
-
-# <============================================== IMPORTS =========================================================>
 import shortuuid
 from pymongo import MongoClient
 from telegram import (
@@ -13,14 +11,10 @@ from telegram.ext import CallbackQueryHandler, ContextTypes, InlineQueryHandler
 
 from IO import DB_NAME, MONGO_DB_URI, function
 
-# Initialize MongoDB client
 client = MongoClient(MONGO_DB_URI)
 db = client[DB_NAME]
 collection = db["whispers"]
 
-
-# <==================================================== CLASS ===================================================>
-# Whispers Class
 class Whispers:
     @staticmethod
     def add_whisper(WhisperId, WhisperData):
@@ -37,8 +31,6 @@ class Whispers:
         return whisper["whisperData"] if whisper else None
 
 
-# <==================================================== BOOT FUNCTION ===================================================>
-# Inline query handler
 async def mainwhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query
     if not query.query:
@@ -96,8 +88,6 @@ async def mainwhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.answer_inline_query(query.id, answers)
 
-
-# Callback query handler
 async def showWhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
     callback_query = update.callback_query
     whisperId = callback_query.data.split("_")[-1]
@@ -134,8 +124,6 @@ async def showWhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
             callback_query.id, "Not your Whisper!", show_alert=True
         )
 
-
-# Function to parse user message
 def parse_user_message(query_text):
     text = query_text.split(" ")
     user = text[0]
@@ -154,22 +142,5 @@ def parse_user_message(query_text):
 
     return user, message
 
-
-# <==================================================== FUNCTION ===================================================>
-# Add handlers
 function(InlineQueryHandler(mainwhisper, block=False))
 function(CallbackQueryHandler(showWhisper, pattern="^whisper_", block=False))
-
-
-# <==================================================== HELP ===================================================>
-__help__ = """
-➠ *Whisper inline function for secret chats.*
-
-➠ *Commands:*
-
-» @MIKO_V2BOT your message @username
-» @MIKO_V2BOT @username your message
-"""
-
-__mod_name__ = "WHISPER-MSG"
-# <==================================================== END ===================================================>
