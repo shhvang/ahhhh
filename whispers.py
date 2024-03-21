@@ -1,3 +1,4 @@
+import logging
 import shortuuid
 from pymongo import MongoClient
 from telegram import (
@@ -7,9 +8,31 @@ from telegram import (
     InputTextMessageContent,
     Update,
 )
-from telegram.ext import CallbackQueryHandler, ContextTypes, InlineQueryHandler
+from telegram.ext import (
+    Application,
+    CallbackQueryHandler,
+    CommandHandler,
+    ContextTypes,
+    InlineQueryHandler,
+)
 
+# Importing your custom module "IO"
 from IO import DB_NAME, MONGO_DB_URI, function
+
+TOKEN = "your_bot_token_here"
+BOT_ID = None
+BOT_NAME = None
+BOT_USERNAME = None
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+dispatcher = Application.builder().token(TOKEN).build()
+logging.info("[INFO]: Getting Bot Info...")
+BOT_ID = dispatcher.bot.id
+BOT_NAME = dispatcher.bot.first_name
+BOT_USERNAME = dispatcher.bot.username
+function = dispatcher.add_handler
 
 client = MongoClient(MONGO_DB_URI)
 db = client[DB_NAME]
@@ -30,6 +53,16 @@ class Whispers:
         whisper = collection.find_one({"WhisperId": WhisperId})
         return whisper["whisperData"] if whisper else None
 
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message when the command /start is issued."""
+    user = update.effective_user
+    await update.message.reply_html(
+        rf"Hi {user.mention_html()}!",
+    )
+
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message when the command /help is issued."""
+    await update.message.reply_text("Help!")
 
 async def mainwhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query
@@ -144,3 +177,11 @@ def parse_user_message(query_text):
 
 function(InlineQueryHandler(mainwhisper, block=False))
 function(CallbackQueryHandler(showWhisper, pattern="^whisper_", block=False))
+function(CommandHandler("start", start))
+function(CommandHandler("help", help))
+
+# Start the Application
+if __name__ == "__main__":
+    logging.info("Starting the Application...")
+    dispatcher.run_polling()
+
