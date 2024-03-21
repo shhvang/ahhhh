@@ -18,12 +18,13 @@ from telegram.ext import (
 
 # Importing your custom module "IO"
 
-BOT_ID = None
-BOT_NAME = None
-BOT_USERNAME = None
-MONGO_DB_URI = ''
-TOKEN = ''
-DB_NAME = '' 
+TOKEN = "6105124264:AAFvPyabYLqIyhn3lLrAa7GuCQjybFZoo2U"
+BOT_ID = 6105124264
+BOT_NAME = 'rWhisper'
+BOT_USERNAME = 'rWhisperBot'
+
+MONGO_DB_URI = 'mongodb+srv://chrollodb:chrollodb@cluster0.fay8b9c.mongodb.net/?retryWrites=true&w=majority'
+DB_NAME = 'chrollodb' 
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
