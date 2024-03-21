@@ -7,14 +7,10 @@ from telegram.constants import ParseMode
 from telegram.ext import Application, ApplicationBuilder
 
 
-TOKEN = "6105124264:AAFt9rKVqHkP774bQUqwf47eBsM0DQ57Y_I"BOT_ID = dispatcher.bot.id
-BOT_NAME = dispatcher.bot.first_name
-BOT_USERNAME = dispatcher.bot.username
-
 TOKEN = "6105124264:AAFt9rKVqHkP774bQUqwf47eBsM0DQ57Y_I"
 
-DB_NAME = ""
-MONGO_DB_URI = ""
+DB_NAME = "chrollodb"
+MONGO_DB_URI = "mongodb+srv://chrollodb:chrollodb@cluster0.fay8b9c.mongodb.net/?retryWrites=true&w=majority"
 
 dispatcher = Application.builder().token(TOKEN).build()
 function = dispatcher.add_handler
