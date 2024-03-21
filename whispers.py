@@ -17,12 +17,14 @@ from telegram.ext import (
 )
 
 # Importing your custom module "IO"
-from IO import DB_NAME, MONGO_DB_URI, function
 
 TOKEN = "your_bot_token_here"
 BOT_ID = None
 BOT_NAME = None
 BOT_USERNAME = None
+MONGO_DB_URI = ''
+TOKEN = ''
+DB_NAME = '' 
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
